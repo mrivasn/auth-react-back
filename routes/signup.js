@@ -12,7 +12,15 @@ router.post("/", async (req, res) => {
     }
 
     try {
+        const user = new User();
+        const exist = await user.usernameExist(username);
+        if(exist){
+            return res.status(400)
+            .json(jsonResponse(400, {error: "Username already exists"}))
+        }
+        
         const newUser = new User({ username, name, password });
+
         await newUser.save();
 
         res.status(200)
@@ -20,7 +28,7 @@ router.post("/", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500)
-           .json(jsonResponse(500, { error: "An error occurred while creating the user." }));
+           .json(jsonResponse(500, { error: "Error creating user" }));
     }
 });
 

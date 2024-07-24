@@ -24,4 +24,14 @@ userSchema.pre("save", function(next) {
     }
 });
 
+userSchema.methods.usernameExist = async function (username){
+    const result = await mongoose.model("User").findOne({username});
+    return !!result;
+}
+
+userSchema.methods.comparePassword = async function (password, hash){
+    const same = await bcrypt.compare(password, hash);
+    return same;
+}
+
 module.exports = mongoose.model("User", userSchema);
