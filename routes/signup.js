@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
         const exist = await user.usernameExist(username);
         if(exist){
             return res.status(400)
-            .json(jsonResponse(400, {error: "Username already exists"}))
+            .json(jsonResponse(400, { error: "Username already exists" }))
         }
         
         const newUser = new User({ username, name, password });
